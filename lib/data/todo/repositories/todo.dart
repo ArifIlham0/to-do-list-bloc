@@ -1,0 +1,101 @@
+import 'package:dartz/dartz.dart';
+import 'package:todolist_bloc/common/helpers/mapper/todo_mapper.dart';
+import 'package:todolist_bloc/data/export_data.dart';
+import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/request/to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/response/todos_response.dart';
+import 'package:todolist_bloc/domain/todo/entities/todo.dart';
+import 'package:todolist_bloc/domain/todo/repositories/todo.dart';
+import 'package:todolist_bloc/service_locator.dart';
+
+class TodoRepositoryImpl extends TodoRepository {
+  @override
+  Future<Either> fetchTodos() async {
+    var data = await sl<TodoApiService>().fetchTodos();
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        var todos = data['data'] != null
+            ? List<TodoEntity>.from(data['data'].map(
+                (item) => TodoMapper.toEntity(TodosResponse.fromJson(item))))
+            : <TodoEntity>[];
+        return Right(todos);
+      },
+    );
+  }
+
+  @override
+  Future<Either> createTodo(ToDoRequest request) async {
+    var data = await sl<TodoApiService>().createTodo(request);
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(data);
+      },
+    );
+  }
+
+  @override
+  Future<Either> updateTodo(String id, ToDoRequest request) async {
+    var data = await sl<TodoApiService>().updateTodo(id, request);
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(data);
+      },
+    );
+  }
+
+  @override
+  Future<Either> deleteTodo(DeleteToDoRequest ids) async {
+    var data = await sl<TodoApiService>().deleteTodo(ids);
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(data);
+      },
+    );
+  }
+
+  @override
+  Future<Either> fetchOverdue() async {
+    var data = await sl<TodoApiService>().fetchOverdue();
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        var todos = data['data'] != null
+            ? List<TodoEntity>.from(data['data'].map(
+                (item) => TodoMapper.toEntity(TodosResponse.fromJson(item))))
+            : <TodoEntity>[];
+        return Right(todos);
+      },
+    );
+  }
+
+  @override
+  Future<Either> fetchComplete() async {
+    var data = await sl<TodoApiService>().fetchComplete();
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        var todos = data['data'] != null
+            ? List<TodoEntity>.from(data['data'].map(
+                (item) => TodoMapper.toEntity(TodosResponse.fromJson(item))))
+            : <TodoEntity>[];
+        return Right(todos);
+      },
+    );
+  }
+}
