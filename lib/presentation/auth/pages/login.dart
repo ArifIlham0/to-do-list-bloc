@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:todolist_bloc/common/widgets/custom_snackbar.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/data/auth/models/request/auth_request.dart';
+import 'package:todolist_bloc/data/auth/models/request/authentication_request.dart';
 import 'package:todolist_bloc/domain/auth/usecases/login.dart';
 import 'package:todolist_bloc/presentation/export_pages.dart';
 import 'package:todolist_bloc/service_locator.dart';
@@ -106,14 +105,14 @@ class _LoginPageState extends State<LoginPage> {
                   text: "Login",
                   isLoading: _isLoading,
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState?.validate() ?? false) {
                       setState(() {
                         _isLoading = true;
                       });
                       try {
                         final result = await sl<LoginUseCase>().call(
-                          params: AuthRequest(
-                            username: _usernameController.text,
+                          params: AuthenticationRequest(
+                            emailOrUsername: _usernameController.text,
                             password: _passwordController.text,
                           ),
                         );

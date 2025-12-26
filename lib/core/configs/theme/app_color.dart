@@ -23,5 +23,3 @@ class ThemeClass {
     ),
   );
 }
-
-ThemeClass _themeClass = ThemeClass();

@@ -1,14 +1,25 @@
 class Api {
-  static const baseURL = "https://sea-turtle-app-qjo2r.ondigitalocean.app/api";
+  static const baseURL = "https://11a809abeba3.ngrok-free.app/api/to-do-list-django/v1";
 }
 
 final Map<String, String> headersNoToken = {
   'Content-Type': 'application/json',
 };
 
-Map<String, String> headerWithToken(String token) {
+final Map<String, String> headersFormDataNoToken = {
+  'Content-Type': 'multipart/form-data',
+};
+
+Map<String, String> headersWithToken(String token) {
   return {
     'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
+}
+
+Map<String, String> headersFormDataWithToken(String token) {
+  return {
+    'Content-Type': 'multipart/form-data',
     'Authorization': 'Bearer $token',
   };
 }

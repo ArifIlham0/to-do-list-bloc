@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:todolist_bloc/common/widgets/custom_navigation.dart';
-import 'package:todolist_bloc/common/widgets/custom_snackbar.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/data/auth/models/request/auth_request.dart';
+import 'package:todolist_bloc/data/auth/models/request/authentication_request.dart';
 import 'package:todolist_bloc/domain/auth/usecases/register.dart';
 import 'package:todolist_bloc/presentation/auth/pages/login.dart';
 import 'package:todolist_bloc/service_locator.dart';
@@ -147,10 +145,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       });
                       try {
                         final result = await sl<RegisterUseCase>().call(
-                          params: AuthRequest(
+                          params: AuthenticationRequest(
                             username: _usernameController.text,
                             password: _passwordController.text,
-                            passwordConfirm: _passwordConfirmController.text,
                           ),
                         );
 

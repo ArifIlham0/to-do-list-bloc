@@ -226,7 +226,7 @@ class ToDoListCubit extends Cubit<ToDoListState> {
   }
 
   void fetchUserPreferences() async {
-    String? usernamePref = await UserPreferences().getUsername();
+    String? usernamePref = await StorageHelper().getString("username");
 
     if (usernamePref != null) {
       username = usernamePref;

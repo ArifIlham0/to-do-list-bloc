@@ -19,11 +19,11 @@ abstract class TodoApiService {
 class TodoApiServiceImpl extends TodoApiService {
   @override
   Future<Either> fetchTodos() async {
-    String? token = await UserPreferences().getToken();
+    String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().get(
         "/todos",
-        options: Options(headers: headerWithToken(token ?? "")),
+        options: Options(headers: headersWithToken(token ?? "")),
       );
 
       return Right(response.data);
@@ -34,11 +34,11 @@ class TodoApiServiceImpl extends TodoApiService {
 
   @override
   Future<Either> createTodo(ToDoRequest request) async {
-    String? token = await UserPreferences().getToken();
+    String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().post(
         "/todos",
-        options: Options(headers: headerWithToken(token ?? "")),
+        options: Options(headers: headersWithToken(token ?? "")),
         data: request.toJson(),
       );
 
@@ -50,11 +50,11 @@ class TodoApiServiceImpl extends TodoApiService {
 
   @override
   Future<Either> updateTodo(String id, ToDoRequest request) async {
-    String? token = await UserPreferences().getToken();
+    String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().put(
         "/todos/$id",
-        options: Options(headers: headerWithToken(token ?? "")),
+        options: Options(headers: headersWithToken(token ?? "")),
         data: request.toJson(),
       );
 
@@ -66,11 +66,11 @@ class TodoApiServiceImpl extends TodoApiService {
 
   @override
   Future<Either> deleteTodo(DeleteToDoRequest ids) async {
-    String? token = await UserPreferences().getToken();
+    String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().delete(
         "/todos",
-        options: Options(headers: headerWithToken(token ?? "")),
+        options: Options(headers: headersWithToken(token ?? "")),
         data: ids.toJson(),
       );
       return Right(response);
@@ -81,11 +81,11 @@ class TodoApiServiceImpl extends TodoApiService {
 
   @override
   Future<Either> fetchOverdue() async {
-    String? token = await UserPreferences().getToken();
+    String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().get(
         "/todos/overdue",
-        options: Options(headers: headerWithToken(token ?? "")),
+        options: Options(headers: headersWithToken(token ?? "")),
       );
 
       return Right(response.data);
@@ -96,11 +96,11 @@ class TodoApiServiceImpl extends TodoApiService {
 
   @override
   Future<Either> fetchComplete() async {
-    String? token = await UserPreferences().getToken();
+    String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().get(
         "/todos/complete",
-        options: Options(headers: headerWithToken(token ?? "")),
+        options: Options(headers: headersWithToken(token ?? "")),
       );
 
       return Right(response.data);

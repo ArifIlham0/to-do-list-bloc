@@ -1,39 +1,64 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserPreferences {
-  static final UserPreferences _instance = UserPreferences._internal();
+class StorageHelper {
+  static final StorageHelper _instance = StorageHelper._internal();
 
-  factory UserPreferences() {
+  factory StorageHelper() {
     return _instance;
   }
 
-  UserPreferences._internal();
+  StorageHelper._internal();
 
   Future<SharedPreferences> _getPrefs() async {
-    return await SharedPreferences.getInstance();
+    return SharedPreferences.getInstance();
   }
 
-  Future<String?> getToken() async {
+  Future<void> setString(String key, String value) async {
     final prefs = await _getPrefs();
-    return prefs.getString('token');
+    await prefs.setString(key, value);
   }
 
-  Future<int?> getUserId() async {
+  Future<void> setInt(String key, int value) async {
     final prefs = await _getPrefs();
-    return prefs.getInt('id');
+    await prefs.setInt(key, value);
   }
 
-  Future<bool?> getIsAdmin() async {
+  Future<void> setBool(String key, bool value) async {
     final prefs = await _getPrefs();
-    return prefs.getBool('is_admin');
+    await prefs.setBool(key, value);
   }
 
-  Future<String?> getUsername() async {
+  Future<void> setDouble(String key, double value) async {
     final prefs = await _getPrefs();
-    return prefs.getString('username');
+    await prefs.setDouble(key, value);
   }
 
-  Future<void> logout() async {
+  Future<String?> getString(String key) async {
+    final prefs = await _getPrefs();
+    return prefs.getString(key);
+  }
+
+  Future<int?> getInt(String key) async {
+    final prefs = await _getPrefs();
+    return prefs.getInt(key);
+  }
+
+  Future<bool?> getBool(String key) async {
+    final prefs = await _getPrefs();
+    return prefs.getBool(key);
+  }
+
+  Future<double?> getDouble(String key) async {
+    final prefs = await _getPrefs();
+    return prefs.getDouble(key);
+  }
+
+  Future<void> remove(String key) async {
+    final prefs = await _getPrefs();
+    await prefs.remove(key);
+  }
+
+  Future<void> clear() async {
     final prefs = await _getPrefs();
     await prefs.clear();
   }

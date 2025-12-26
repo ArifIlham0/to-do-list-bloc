@@ -104,7 +104,7 @@ class ProfilePage extends StatelessWidget {
                 customDialog(
                   content: "Are you sure want to logout?",
                   onConfirm: () async {
-                    await UserPreferences().logout();
+                    await StorageHelper().clear();
                     customNavigation(() => const LoginPage(), isOffAll: true);
                   },
                 );

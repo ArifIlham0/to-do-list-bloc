@@ -14,7 +14,7 @@ void setupServiceLocator() {
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
   sl.registerSingleton<TodoRepository>(TodoRepositoryImpl());
 
-  sl.registerSingleton<SplashUseCase>(SplashUseCase());
+  // sl.registerSingleton<SplashUseCase>(SplashUseCase());
   sl.registerSingleton<LoginUseCase>(LoginUseCase());
   sl.registerSingleton<RegisterUseCase>(RegisterUseCase());
   sl.registerSingleton<FetchTodosUseCase>(FetchTodosUseCase());
