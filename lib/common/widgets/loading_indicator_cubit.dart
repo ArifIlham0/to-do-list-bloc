@@ -13,7 +13,7 @@ class LoadingIndicatorCubit<C extends Cubit<S>, S> extends StatelessWidget {
         if ((state is ToDoListLoadingStack) ||
             (state is ToDoListOverdueLoadingStack)) {
           return Container(
-            color: kBlack.withOpacity(0.6),
+            color: kBlack.withAlpha(153),
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 140.w, vertical: 290.h),
               decoration: BoxDecoration(

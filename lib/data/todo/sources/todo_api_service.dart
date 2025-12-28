@@ -3,7 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:todolist_bloc/common/helpers/user_preferences.dart';
 import 'package:todolist_bloc/core/constants/api.dart';
 import 'package:todolist_bloc/core/network/dio_client.dart';
-import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/models/global_query_params.dart';
+import 'package:todolist_bloc/data/todo/models/request/global_request.dart';
 import 'package:todolist_bloc/data/todo/models/request/to_do_request.dart';
 import 'package:todolist_bloc/service_locator.dart';
 
@@ -11,7 +12,7 @@ abstract class TodoApiService {
   Future<Either> fetchTodos();
   Future<Either> createTodo(ToDoRequest request);
   Future<Either> updateTodo(String id, ToDoRequest request);
-  Future<Either> deleteTodo(DeleteToDoRequest ids);
+  Future<Either> deleteTodo(GlobalRequest ids);
   Future<Either> fetchOverdue();
   Future<Either> fetchComplete();
 }
@@ -22,8 +23,9 @@ class TodoApiServiceImpl extends TodoApiService {
     String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().get(
-        "/todos",
+        "/to-do/fetch",
         options: Options(headers: headersWithToken(token ?? "")),
+        queryParameters: GlobalQueryParams(page: 1, pageSize: 15, isCompleted: false).toJson(),
       );
 
       return Right(response.data);
@@ -37,7 +39,7 @@ class TodoApiServiceImpl extends TodoApiService {
     String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().post(
-        "/todos",
+        "/to-do/create",
         options: Options(headers: headersWithToken(token ?? "")),
         data: request.toJson(),
       );
@@ -53,7 +55,7 @@ class TodoApiServiceImpl extends TodoApiService {
     String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().put(
-        "/todos/$id",
+        "/to-do/update/$id",
         options: Options(headers: headersWithToken(token ?? "")),
         data: request.toJson(),
       );
@@ -65,11 +67,11 @@ class TodoApiServiceImpl extends TodoApiService {
   }
 
   @override
-  Future<Either> deleteTodo(DeleteToDoRequest ids) async {
+  Future<Either> deleteTodo(GlobalRequest ids) async {
     String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().delete(
-        "/todos",
+        "/to-do/delete",
         options: Options(headers: headersWithToken(token ?? "")),
         data: ids.toJson(),
       );
@@ -84,8 +86,9 @@ class TodoApiServiceImpl extends TodoApiService {
     String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().get(
-        "/todos/overdue",
+        "/to-do/fetch",
         options: Options(headers: headersWithToken(token ?? "")),
+        queryParameters: GlobalQueryParams(page: 1, pageSize: 15, isOverdue: true).toJson()
       );
 
       return Right(response.data);
@@ -99,8 +102,9 @@ class TodoApiServiceImpl extends TodoApiService {
     String? token = await StorageHelper().getString("token");
     try {
       var response = await sl<DioClient>().get(
-        "/todos/complete",
+        "/to-do/fetch",
         options: Options(headers: headersWithToken(token ?? "")),
+        queryParameters: GlobalQueryParams(page: 1, pageSize: 15, isCompleted: true).toJson()
       );
 
       return Right(response.data);

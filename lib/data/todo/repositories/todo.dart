@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolist_bloc/common/helpers/mapper/todo_mapper.dart';
 import 'package:todolist_bloc/data/export_data.dart';
-import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/request/global_request.dart';
 import 'package:todolist_bloc/data/todo/models/request/to_do_request.dart';
-import 'package:todolist_bloc/data/todo/models/response/todos_response.dart';
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 import 'package:todolist_bloc/domain/todo/repositories/todo.dart';
 import 'package:todolist_bloc/service_locator.dart';
 
@@ -17,11 +15,10 @@ class TodoRepositoryImpl extends TodoRepository {
         return Left(error);
       },
       (data) {
-        var todos = data['data'] != null
-            ? List<TodoEntity>.from(data['data'].map(
-                (item) => TodoMapper.toEntity(TodosResponse.fromJson(item))))
-            : <TodoEntity>[];
-        return Right(todos);
+        var toDoData = ToDosResponse.fromJson(data);
+        var toDos = toDoData.data;
+
+        return Right(toDos);
       },
     );
   }
@@ -53,7 +50,7 @@ class TodoRepositoryImpl extends TodoRepository {
   }
 
   @override
-  Future<Either> deleteTodo(DeleteToDoRequest ids) async {
+  Future<Either> deleteTodo(GlobalRequest ids) async {
     var data = await sl<TodoApiService>().deleteTodo(ids);
     return data.fold(
       (error) {
@@ -73,11 +70,9 @@ class TodoRepositoryImpl extends TodoRepository {
         return Left(error);
       },
       (data) {
-        var todos = data['data'] != null
-            ? List<TodoEntity>.from(data['data'].map(
-                (item) => TodoMapper.toEntity(TodosResponse.fromJson(item))))
-            : <TodoEntity>[];
-        return Right(todos);
+        var toDoData = ToDosResponse.fromJson(data);
+        var toDos = toDoData.data;
+        return Right(toDos);
       },
     );
   }
@@ -90,11 +85,10 @@ class TodoRepositoryImpl extends TodoRepository {
         return Left(error);
       },
       (data) {
-        var todos = data['data'] != null
-            ? List<TodoEntity>.from(data['data'].map(
-                (item) => TodoMapper.toEntity(TodosResponse.fromJson(item))))
-            : <TodoEntity>[];
-        return Right(todos);
+        var toDoData = ToDosResponse.fromJson(data);
+        var toDos = toDoData.data;
+
+        return Right(toDos);
       },
     );
   }

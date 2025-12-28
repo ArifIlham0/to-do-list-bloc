@@ -81,19 +81,16 @@ class CompletedToDoPage extends StatelessWidget {
                                 cubit.onTodoLongPress(todos.id ?? 0);
                               },
                               onPressed: () {
-                                String formattedDateTime =
-                                    DateTime.now().toUtc().toIso8601String();
-                                formattedDateTime =
-                                    DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-                                        .format(todos.time ?? DateTime.now());
+                                String formattedDateTime = DateTime.now().toUtc().toIso8601String();
+                                formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.parse(todos.dueDate ?? ""));
 
                                 cubit.updateTodo(
                                   todos.id.toString(),
                                   ToDoRequest(
                                     title: todos.title,
                                     description: todos.description,
-                                    time: formattedDateTime,
-                                    completed: false,
+                                    dueDate: DateTime.parse(formattedDateTime),
+                                    isCompleted: false,
                                   ),
                                   context,
                                 );
@@ -139,7 +136,7 @@ class CompletedToDoPage extends StatelessWidget {
             builder: (context, state) {
               if (state is ToDoListCompleteLoadingStack) {
                 return Container(
-                  color: kBlack.withOpacity(0.6),
+                  color: kBlack.withAlpha(153),
                   child: Container(
                     margin: EdgeInsets.symmetric(
                         horizontal: 140.w, vertical: 290.h),

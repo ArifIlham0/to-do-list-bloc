@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 
 Future<void> customBottomSheet({
   required BuildContext context,
@@ -11,7 +11,7 @@ Future<void> customBottomSheet({
   required VoidCallback onDismiss,
   GlobalKey<FormState>? formKey,
   DateTime? time,
-  TodoEntity? todo,
+  DatumToDo? todo,
 }) {
   return showModalBottomSheet(
     context: context,

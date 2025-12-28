@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todolist_bloc/common/helpers/date.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 
 class ToDoListOverdue extends StatefulWidget {
   const ToDoListOverdue({
@@ -14,7 +14,7 @@ class ToDoListOverdue extends StatefulWidget {
     this.onLongPress,
   });
 
-  final TodoEntity? todos;
+  final DatumToDo? todos;
   final bool? isCompleted;
   final Function()? onTap;
   final Function()? onPressed;
@@ -91,11 +91,11 @@ class _ToDoListOverdueState extends State<ToDoListOverdue> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: textStyles(
-                            14, kWhite.withOpacity(0.5), FontWeight.normal),
+                            14, kWhite.withAlpha(127), FontWeight.normal),
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        formatDateTime(widget.todos!.time.toString()),
+                        formatDateTime(widget.todos?.dueDate.toString() ?? ""),
                         style: textStyles(12, kWhite, FontWeight.normal),
                       ),
                       SizedBox(height: 5.h),

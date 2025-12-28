@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:todolist_bloc/core/usecase/usecase.dart';
-import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/request/global_request.dart';
 import 'package:todolist_bloc/domain/export_domain.dart';
 import 'package:todolist_bloc/service_locator.dart';
 
 class DeleteTodoParams {
-  final DeleteToDoRequest ids;
+  final GlobalRequest ids;
 
   DeleteTodoParams({required this.ids});
 }

@@ -1,11 +1,11 @@
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 
 abstract class ToDoListOverdueState {}
 
 class ToDoListOverdueLoading extends ToDoListOverdueState {}
 
 class ToDoListOverdueLoadingStack extends ToDoListOverdueState {
-  final List<TodoEntity> todos;
+  final List<DatumToDo> todos;
 
   ToDoListOverdueLoadingStack({required this.todos});
 }
@@ -17,7 +17,7 @@ class ToDoListOverdueLoaded extends ToDoListOverdueState {
     this.selectedTodos = const [],
   });
 
-  final List<TodoEntity> todos;
+  final List<DatumToDo> todos;
   final bool isSelectionMode;
   final List<int> selectedTodos;
 }

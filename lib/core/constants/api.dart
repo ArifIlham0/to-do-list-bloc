@@ -1,5 +1,5 @@
 class Api {
-  static const baseURL = "https://11a809abeba3.ngrok-free.app/api/to-do-list-django/v1";
+  static const baseURL = "https://2b73c1fb852a.ngrok-free.app/api/to-do-list-django/v1";
 }
 
 final Map<String, String> headersNoToken = {

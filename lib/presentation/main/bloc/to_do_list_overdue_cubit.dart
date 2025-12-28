@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/request/global_request.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 import 'package:todolist_bloc/domain/export_domain.dart';
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
 import 'package:todolist_bloc/presentation/main/bloc/to_do_list_overdue_state.dart';
 import 'package:todolist_bloc/service_locator.dart';
 
@@ -11,7 +11,7 @@ class ToDoListOverdueCubit extends Cubit<ToDoListOverdueState> {
 
   List<int> selectedTodos = [];
   bool isSelectionMode = false;
-  List<TodoEntity> todos = [];
+  List<DatumToDo> todos = [];
 
   void onTodoLongPress(int todoId) {
     if (state is ToDoListOverdueLoaded) {
@@ -43,7 +43,7 @@ class ToDoListOverdueCubit extends Cubit<ToDoListOverdueState> {
               ? (state as ToDoListOverdueLoaded).todos
               : []));
       var result = await sl<DeleteTodoUseCase>().call(
-          params: DeleteTodoParams(ids: DeleteToDoRequest(ids: selectedTodos)));
+          params: DeleteTodoParams(ids: GlobalRequest(ids: selectedTodos)));
 
       result.fold(
         (error) {

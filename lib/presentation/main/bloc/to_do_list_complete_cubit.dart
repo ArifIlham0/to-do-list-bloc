@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/request/global_request.dart';
 import 'package:todolist_bloc/data/todo/models/request/to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 import 'package:todolist_bloc/domain/export_domain.dart';
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
 import 'package:todolist_bloc/presentation/export_cubit.dart';
 import 'package:todolist_bloc/service_locator.dart';
 
@@ -13,7 +13,7 @@ class ToDoListCompleteCubit extends Cubit<ToDoListCompleteState> {
 
   List<int> selectedTodos = [];
   bool isSelectionMode = false;
-  List<TodoEntity> todos = [];
+  List<DatumToDo> todos = [];
 
   void onTodoLongPress(int todoId) {
     if (state is ToDoListCompleteLoaded) {
@@ -45,7 +45,7 @@ class ToDoListCompleteCubit extends Cubit<ToDoListCompleteState> {
               ? (state as ToDoListCompleteLoaded).todos
               : []));
       var result = await sl<DeleteTodoUseCase>().call(
-          params: DeleteTodoParams(ids: DeleteToDoRequest(ids: selectedTodos)));
+          params: DeleteTodoParams(ids: GlobalRequest(ids: selectedTodos)));
 
       result.fold(
         (error) {

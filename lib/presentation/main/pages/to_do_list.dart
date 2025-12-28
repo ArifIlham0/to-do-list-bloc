@@ -116,7 +116,7 @@ class ToDoListPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 200.h,
+                height: 160.h,
                 child: BlocBuilder<ToDoListOverdueCubit, ToDoListOverdueState>(
                   builder: (context, state) {
                     if (state is ToDoListOverdueLoading) {

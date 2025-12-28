@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist_bloc/common/helpers/user_preferences.dart';
 import 'package:todolist_bloc/common/widgets/export_widgets.dart';
-import 'package:todolist_bloc/data/todo/models/request/delete_to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/request/global_request.dart';
 import 'package:todolist_bloc/data/todo/models/request/to_do_request.dart';
+import 'package:todolist_bloc/data/todo/models/response/to_dos_response.dart';
 import 'package:todolist_bloc/domain/export_domain.dart';
-import 'package:todolist_bloc/domain/todo/entities/todo.dart';
 import 'package:todolist_bloc/presentation/export_cubit.dart';
 import 'package:todolist_bloc/service_locator.dart';
 
@@ -19,7 +19,7 @@ class ToDoListCubit extends Cubit<ToDoListState> {
   String formattedDateTime = DateTime.now().toUtc().toIso8601String();
   List<int> selectedTodos = [];
   bool isSelectionMode = false;
-  List<TodoEntity> todos = [];
+  List<DatumToDo> todos = [];
   String username = '';
 
   bool validateForm() {
@@ -55,7 +55,7 @@ class ToDoListCubit extends Cubit<ToDoListState> {
   }
 
   void onTodoTap(
-    TodoEntity todo,
+    DatumToDo todo,
     BuildContext context,
     TextEditingController title,
     TextEditingController description,
@@ -66,8 +66,7 @@ class ToDoListCubit extends Cubit<ToDoListState> {
     } else {
       title.text = todo.title ?? '';
       description.text = todo.description ?? '';
-      formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-          .format(todo.time ?? DateTime.now());
+      formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.parse(todo.dueDate ?? ""));
 
       customBottomSheet(
         context: context,
@@ -89,8 +88,8 @@ class ToDoListCubit extends Cubit<ToDoListState> {
               ToDoRequest(
                 title: title.text,
                 description: description.text,
-                time: formattedDateTime,
-                completed: false,
+                dueDate: DateTime.parse(formattedDateTime),
+                isCompleted: false,
               ),
               context,
             );
@@ -102,18 +101,16 @@ class ToDoListCubit extends Cubit<ToDoListState> {
     }
   }
 
-  void markTodoCompleted(TodoEntity todo, BuildContext context) {
-    formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        .format(todo.time ?? DateTime.now());
-    Get.log("id ${todo.id}");
-    Get.log("time $formattedDateTime");
+  void markTodoCompleted(DatumToDo todo, BuildContext context) {
+    formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.parse(todo.dueDate ?? ""));
+
     updateTodo(
       todo.id.toString(),
       ToDoRequest(
         title: todo.title,
         description: todo.description,
-        time: formattedDateTime,
-        completed: true,
+        dueDate: DateTime.parse(formattedDateTime),
+        isCompleted: true,
       ),
       context,
     );
@@ -148,7 +145,7 @@ class ToDoListCubit extends Cubit<ToDoListState> {
           todos:
               state is ToDoListLoaded ? (state as ToDoListLoaded).todos : []));
       var result = await sl<DeleteTodoUseCase>().call(
-          params: DeleteTodoParams(ids: DeleteToDoRequest(ids: selectedTodos)));
+          params: DeleteTodoParams(ids: GlobalRequest(ids: selectedTodos)));
 
       result.fold(
         (error) {
@@ -202,8 +199,8 @@ class ToDoListCubit extends Cubit<ToDoListState> {
             ToDoRequest(
               title: title.text,
               description: description.text,
-              time: formattedDateTime,
-              completed: false,
+              dueDate: DateTime.parse(formattedDateTime),
+              isCompleted: false,
             ),
             context,
           );
@@ -276,7 +273,7 @@ class ToDoListCubit extends Cubit<ToDoListState> {
     );
   }
 
-  void deleteTodo(DeleteToDoRequest ids) async {
+  void deleteTodo(GlobalRequest ids) async {
     var result =
         await sl<DeleteTodoUseCase>().call(params: DeleteTodoParams(ids: ids));
 
