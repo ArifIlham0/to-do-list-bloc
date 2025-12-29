@@ -11,7 +11,9 @@ class LoadingIndicatorCubit<C extends Cubit<S>, S> extends StatelessWidget {
     return BlocBuilder<C, S>(
       builder: (context, state) {
         if ((state is ToDoListLoadingStack) ||
-            (state is ToDoListOverdueLoadingStack)) {
+            (state is ToDoListOverdueLoadingStack) ||
+            (state is ExperimentLoading) ||
+            (state is ExperimentRefreshing)) {
           return Container(
             color: kBlack.withAlpha(153),
             child: Container(

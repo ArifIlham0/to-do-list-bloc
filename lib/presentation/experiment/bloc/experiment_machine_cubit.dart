@@ -5,18 +5,18 @@ import '../../../service_locator.dart';
 import '../../../data/export_data.dart';
 import '../../../domain/export_domain.dart';
 
-class ExperimentCubit extends Cubit<ExperimentState> {
-  ExperimentCubit() : super(ExperimentLoading());
+class ExperimentMachineCubit extends Cubit<ExperimentMachineState> {
+  ExperimentMachineCubit() : super(ExperimentMachineLoading());
 
   final query = TextEditingController();
   var name = "";
   var category = "";
 
-  Future<void> fetchExperiments({bool isRefresh = false}) async {
-    if (isRefresh && state is ExperimentLoaded) {
-      emit(ExperimentRefreshing((state as ExperimentLoaded).data));
+  Future<void> fetchMachines({bool isRefresh = false}) async {
+    if (isRefresh && state is ExperimentMachineLoaded) {
+      emit(ExperimentMachineRefreshing((state as ExperimentMachineLoaded).data));
     } else {
-      emit(ExperimentLoading());
+      emit(ExperimentMachineLoading());
     }
 
     var data = await sl<FetchExperimentsUseCase>().call(
@@ -28,10 +28,10 @@ class ExperimentCubit extends Cubit<ExperimentState> {
 
     data.fold(
       (error) {
-        emit(ExperimentFailure(message: error));
+        emit(ExperimentMachineFailure(message: error));
       },
       (data) {
-        emit(ExperimentLoaded(data: data));
+        emit(ExperimentMachineLoaded(data: data));
       },
     );
   }

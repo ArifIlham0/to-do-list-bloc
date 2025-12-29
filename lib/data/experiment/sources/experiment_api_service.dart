@@ -7,6 +7,7 @@ import 'package:todolist_bloc/service_locator.dart';
 
 abstract class ExperimentApiService {
   Future<Either> fetchExperiments(ExperimentRequest request);
+  Future<Either> fetchCategories();
 }
 
 class ExperimentApiServiceImpl extends ExperimentApiService {
@@ -17,6 +18,20 @@ class ExperimentApiServiceImpl extends ExperimentApiService {
         "/experiment/fetch",
         options: Options(headers: headersNoToken),
         data: request.toJson(),
+      );
+
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(e.response?.data['message']);
+    }
+  }
+
+  @override
+  Future<Either> fetchCategories() async {
+    try {
+      var response = await sl<DioClient>().get(
+        "/experiment/fetch-category",
+        options: Options(headers: headersNoToken),
       );
 
       return Right(response.data);

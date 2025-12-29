@@ -10,9 +10,11 @@ void setupServiceLocator() {
 
   sl.registerSingleton<AuthApiService>(AuthApiServiceImpl());
   sl.registerSingleton<TodoApiService>(TodoApiServiceImpl());
+  sl.registerSingleton<ExperimentApiService>(ExperimentApiServiceImpl());
 
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
   sl.registerSingleton<TodoRepository>(TodoRepositoryImpl());
+  sl.registerSingleton<ExperimentRepository>(ExperimentRepositoryImpl());
 
   // sl.registerSingleton<SplashUseCase>(SplashUseCase());
   sl.registerSingleton<LoginUseCase>(LoginUseCase());
@@ -23,4 +25,6 @@ void setupServiceLocator() {
   sl.registerSingleton<DeleteTodoUseCase>(DeleteTodoUseCase());
   sl.registerSingleton<FetchTodosOverdueUseCase>(FetchTodosOverdueUseCase());
   sl.registerSingleton<FetchTodosCompleteUseCase>(FetchTodosCompleteUseCase());
+  sl.registerSingleton<FetchExperimentsUseCase>(FetchExperimentsUseCase());
+  sl.registerSingleton<FetchCategoriesUseCase>(FetchCategoriesUseCase());
 }

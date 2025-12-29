@@ -12,3 +12,4 @@ export '../domain/todo/usecases/delete_todo.dart';
 export '../domain/todo/usecases/fetch_todos_overdue.dart';
 export '../domain/todo/usecases/fetch_todos_complete.dart';
 export '../domain/experiment/usecases/fetch_experiments.dart';
+export '../domain/experiment/usecases/fetch_categories.dart';

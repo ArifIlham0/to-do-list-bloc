@@ -5,33 +5,33 @@ import '../../../service_locator.dart';
 import '../../../data/export_data.dart';
 import '../../../domain/export_domain.dart';
 
-class ExperimentCubit extends Cubit<ExperimentState> {
-  ExperimentCubit() : super(ExperimentLoading());
+class ExperimentWeightCubit extends Cubit<ExperimentWeightState> {
+  ExperimentWeightCubit() : super(ExperimentWeightLoading());
 
   final query = TextEditingController();
   var name = "";
   var category = "";
 
   Future<void> fetchExperiments({bool isRefresh = false}) async {
-    if (isRefresh && state is ExperimentLoaded) {
-      emit(ExperimentRefreshing((state as ExperimentLoaded).data));
+    if (isRefresh && state is ExperimentWeightLoaded) {
+      emit(ExperimentWeightRefreshing((state as ExperimentWeightLoaded).data));
     } else {
-      emit(ExperimentLoading());
+      emit(ExperimentWeightLoading());
     }
 
     var data = await sl<FetchExperimentsUseCase>().call(
       params: ExperimentRequest(
         name: name,
-        category: category,
+        category: "weights",
       )
     );
 
     data.fold(
       (error) {
-        emit(ExperimentFailure(message: error));
+        emit(ExperimentWeightFailure(message: error));
       },
       (data) {
-        emit(ExperimentLoaded(data: data));
+        emit(ExperimentWeightLoaded(data: data));
       },
     );
   }

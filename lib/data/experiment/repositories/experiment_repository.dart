@@ -20,4 +20,20 @@ class ExperimentRepositoryImpl extends ExperimentRepository {
       },
     );
   }
+
+  @override
+  Future<Either> fetchCategories() async {
+    var data = await sl<ExperimentApiService>().fetchCategories();
+    return data.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        var categoryData = CategoriesResponse.fromJson(data);
+        var categories = categoryData.data;
+
+        return Right(categories);
+      },
+    );
+  }
 }

@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()..appStarted()),
         BlocProvider(create: (context) => BottomNavCubit()),
+        BlocProvider(create: (context) => ExperimentCubit()),
+        BlocProvider(create: (context) => ExperimentWeightCubit()),
+        BlocProvider(create: (context) => ExperimentMachineCubit()),
+        BlocProvider(create: (context) => CategoryCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),

@@ -5,3 +5,5 @@ export "../data/todo/repositories/todo.dart";
 export '../data/experiment/models/request/experiment_request.dart';
 export '../data/experiment/models/response/experiments_response.dart';
 export '../data/experiment/sources/experiment_api_service.dart';
+export '../data/experiment/repositories/experiment_repository.dart';
+export '../data/experiment/models/response/categories_response.dart';

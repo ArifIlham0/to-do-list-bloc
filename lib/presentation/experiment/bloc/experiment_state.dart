@@ -7,7 +7,13 @@ class ExperimentLoading extends ExperimentState {}
 class ExperimentLoaded extends ExperimentState {
   ExperimentLoaded({required this.data});
 
-  final DatumExperiment data;
+  final List<DatumExperiment> data;
+}
+
+class ExperimentRefreshing extends ExperimentState {
+  ExperimentRefreshing(this.oldData);
+  
+  final List<DatumExperiment> oldData;
 }
 
 class ExperimentFailure extends ExperimentState {
